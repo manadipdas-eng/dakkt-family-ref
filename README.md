@@ -1,26 +1,16 @@
-# DAKKT Family Ref — Team 213
+# DAKKT Family Ref — Team 213 (Family AI Game Day, Cycle 3)
+Open `index.html` in Chrome/Edge (no install, API key or internet). Everything runs on-device.
 
-A responsive, offline-first browser prototype for the COE STEM 2026 Cycle 3 challenge.
+## Games (football + 2 originals; none are the PDF examples)
+- **Family Football** (team, video): calibrate ball colour, player shirt colours and both goals once; the AI tracks them frame-by-frame, detects goals, possession per team/player and MVP.
+- **Falcon Freeze** (individual, video): frame-difference motion analysis of a judged window; stillness % → points.
+- **Silent Majlis** (team, audio): RMS loudness analysis with ambient calibration; time held quiet → points.
 
-## Features
-- Three family games: Family Football, Heritage Quiz, and Ring Toss.
-- Player names, team names, round duration, and points-per-success settings.
-- Countdown timer, live scoreboard, manual score adjustments, decision log, and final result.
-- Offline cached judging examples loaded from `demo-data.js`.
-- Optional video/audio file selection UI for demonstration.
+## Flow
+Choose game → players/teams → rules, rounds, turn timer, tie-break → upload or record clip → **Run AI judge** → result with reason/evidence → Apply → final results (winner, facts, MVP) → choose another game.
 
-## Run locally
-1. Keep `index.html`, `demo-data.js`, and this README in the same folder.
-2. Open `index.html` in a modern browser. No install or API key is required.
-3. Confirm teams, start the timer, select a cached scenario in the AI Judge desk, and review the suggested decision.
+## Signed reports
+Every result is a JSON `{payload, sig}`; `sig` = HMAC-SHA256 (hex) of the key-sorted, compact JSON payload with `KEY` in `index.html`. The app verifies before applying, and rejects imported/edited reports. An external Python judge can produce reports the same way.
 
-## Important limitation
-The cached responses are scripted examples. This prototype does **not** analyse uploaded video/audio and does not perform real computer vision or speech recognition. The file picker is UI-only. Do not present cached decisions as real AI analysis. A production version needs a tested AI/media pipeline and clear human review for uncertain cases.
-
-## Quick test checklist
-- [ ] Select each of the three games.
-- [ ] Confirm at least two players and start/pause the timer.
-- [ ] Accept a successful cached demo and confirm score changes.
-- [ ] Try the unclear example and confirm no points are awarded.
-- [ ] Reject a decision and confirm the score stays the same.
-- [ ] Open the deployed link in a private/incognito window.
+## Honest limits
+Colour-based tracking needs a steady camera, distinct shirt/ball colours and good light. Speech recognition is not included. The Python judge path is not implemented (in-app judge only). Not yet tested with real family footage — test and tune thresholds (tolerance 55, motion 6, 22% possession radius) before the demo.
